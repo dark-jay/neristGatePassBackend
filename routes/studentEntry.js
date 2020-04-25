@@ -1,5 +1,5 @@
 const auth = require('../middleware/auth');
-const {Faculty: Student, Entry, validateEntry} = require('../models/student');
+const {Student: Student, Entry, validateEntry} = require('../models/student');
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 const express = require('express');
