@@ -1,4 +1,6 @@
-const {Student: Student, validate} = require('../models/student');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
+const {Faculty: Student, validate} = require('../models/student'); 
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
@@ -12,10 +14,10 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
-  let student = new Student({
+  let student = new Student({ 
     name: req.body.name,
     rollNo: req.body.rollNo,
     regNo: req.body.regNo,
@@ -23,15 +25,15 @@ router.post('/', async (req, res) => {
     entries: []
   });
   student = await student.save();
-
+  
   res.send(student);
 });
 
 router.put('/:rollNo', async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
-  const student = await Student.findOne({
+  const student = await Student.findOne({ 
       rollNo: req.params.rollNo
   });
 
@@ -41,11 +43,11 @@ router.put('/:rollNo', async (req, res) => {
   student.rollNo = req.body.rollNo;
   student.regNo = req.body.regNo;
   student.phone = req.body.phone;
-
+  
   res.send(student);
 });
 
-router.delete('/:rollNo', async (req, res) => {
+router.delete('/:rollNo', [auth, admin], async (req, res) => {
   const student = await Student.deleteOne({ rollNo: req.params.rollNo });
 
   if (!student) return res.status(404).send('The student with the given ID was not found.');
@@ -63,4 +65,4 @@ router.get('/:rollNo', async (req, res) => {
   res.send(student);
 });
 
-module.exports = router;
+module.exports = router; 

@@ -1,4 +1,6 @@
-const {Student: Student, Entry, validate} = require('../models/student');
+const auth = require('../middleware/auth');
+const {Faculty: Student, Entry, validateEntry} = require('../models/student');
+const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
@@ -11,13 +13,17 @@ router.get('/', async (req, res) => {
   res.send(students);
 });
 
-router.post('/:rollNo', async (req, res) => {
+router.post('/:rollNo', auth, async (req, res) => {
   const student = await Student.findOne({ rollNo: req.params.rollNo });
-
   if (!student) return res.status(404).send('The student with the given ID was not found.');
 
+  const { error } = validateEntry(req.body); 
+  if (error) return res.status(400).send(error.details[0].message);
+
   const entry = new Entry({
-    mode: req.body.mode
+    date: req.body.date,
+    mode: req.body.mode,
+    gateNo: req.body.gateNo
   });
 
   student.entries.push(entry);
