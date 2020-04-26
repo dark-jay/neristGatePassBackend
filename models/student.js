@@ -1,20 +1,6 @@
 const Joi = require('@hapi/joi');
+const { Entry, entrySchema } = require('./entry');
 const mongoose = require('mongoose');
-
-const entrySchema = new mongoose.Schema({
-  date: { type: Date, default: Date.now },
-  mode: {
-    type: String,
-    required: true
-  },
-  gateNo: {
-    type: Number,
-    required: true,
-    minlength: 1
-  }
-});
-
-const Entry = mongoose.model('Entry', entrySchema);
 
 const Student = mongoose.model('Student', new mongoose.Schema({
   name: {
@@ -64,7 +50,7 @@ function validateEntryPayload(entry) {
   return schema.validate(entry);
 }
 
-exports.Faculty = Student; 
+exports.Student = Student; 
 exports.Entry = Entry;
 exports.validate = validateStudent;
 exports.validateEntry = validateEntryPayload;
