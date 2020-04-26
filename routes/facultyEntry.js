@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/:phone', auth, async (req, res) => {
-  const faculty = await Faculty.findOne({ rollNo: req.params.phone });
+  const faculty = await Faculty.findOne({ phone: req.params.phone });
   if (!faculty) return res.status(404).send('The faculty member with the given ID was not found.');
 
   const { error } = validateEntry(req.body); 
@@ -34,8 +34,8 @@ router.post('/:phone', auth, async (req, res) => {
 
 router.get('/:phone', async (req, res) => {
   const faculty = await Faculty
-    .findOne({ rollNo: req.params.phone })
-    .select({ name: 1, rollNo: 1, entries: 1 });
+    .findOne({ phone: req.params.phone })
+    .select({ name: 1, phone: 1, entries: 1 });
 
   if (!faculty) return res.status(404).send('The faculty member with the given ID was not found.');
 
