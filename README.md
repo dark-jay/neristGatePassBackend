@@ -63,14 +63,20 @@ After that, follow the below instruction to run the server:
 This endpoint is use to get the current user of the system and also to
 sign up into the database (e.g. the Guard will be a user).
 
-    GET:
-
+    **GET**:
+```code
         Use : To get the current user name and email-Id
+        
         URL : <u>http://localhost:3000/api/users/me</u>
+        
         Respond : JSON object.
+        
         JSON properties: { “name”, “email” }
+        
         Authentication : Not required
+        
         Authorization : Not required
+```
 
 **POST**:
 
