@@ -1,5 +1,5 @@
 # neristGatePassBackend
-Its a Back end system to provide API service to access and modify the database.
+Its a Backend system to provide API service to access and modify the database of any ingoing/outgoing individual through a gate.
 
 ## Documentation
 
